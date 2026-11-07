@@ -1,0 +1,23 @@
+{
+    "name": "Announcement",
+    "alias": "announcement",
+    "description": "公告通知插件：展示系统公告列表。",
+    "keywords": ["announcement", "plugin"],
+    "author": "Demo Team",
+    "version": "1.0.0",
+    "priority": 0,
+    "providers": [
+        "Modules\\Announcement\\Providers\\AnnouncementServiceProvider"
+    ],
+    "required_php": "^8.3",
+    "required_modules": [],
+    "menus": [
+        {
+            "title": "公告通知",
+            "route": "announcements.index",
+            "icon": "megaphone",
+            "order": 11
+        }
+    ],
+    "files": []
+}

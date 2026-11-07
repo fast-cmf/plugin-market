@@ -3,10 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Services\Plugins\PluginInstaller;
-use App\Services\Plugins\Signature\PackageSigner;
-use App\Services\Plugins\Signature\SigningKey;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Openframe\PluginMarketSdk\Signature\PackageSigner;
+use Openframe\PluginMarketSdk\Signature\SigningKey;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ZipArchive;

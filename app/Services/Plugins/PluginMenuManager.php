@@ -4,6 +4,7 @@ namespace App\Services\Plugins;
 
 use App\Models\Plugin;
 use App\Models\PluginMenu;
+use Openframe\PluginMarketSdk\Validation\PluginManifestData;
 
 class PluginMenuManager
 {

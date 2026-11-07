@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Plugins;
+namespace Openframe\PluginMarketSdk\Validation;
 
 use RuntimeException;
 

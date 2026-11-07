@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Services\Plugins;
+namespace Openframe\PluginMarketSdk\Validation;
 
-use App\Models\Plugin;
-use App\Services\Plugins\Signature\SignatureVerifier;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
+use Openframe\PluginMarketSdk\Signature\SignatureVerifier;
 use ZipArchive;
 
 class PluginArchiveValidator
@@ -32,12 +31,11 @@ class PluginArchiveValidator
     /**
      * Validate a plugin zip archive and extract its manifest.
      *
-     * @return PluginManifestData The parsed manifest; the caller decides
-     *                            whether an existing plugin should be updated.
+     * @return PluginManifestData The parsed manifest.
      *
      * @throws PluginMarketException When the archive is not a valid plugin package.
      */
-    public function validate(string $zipPath, ?Plugin $existing = null): PluginManifestData
+    public function validate(string $zipPath): PluginManifestData
     {
         $this->signatureWarnings = [];
         $this->signatureInfo = null;
@@ -55,10 +53,6 @@ class PluginArchiveValidator
             $this->lintPhpFiles($zip, $entries, $manifest);
         } finally {
             $zip->close();
-        }
-
-        if ($existing !== null) {
-            $this->assertCompatibleWithExisting($manifest, $existing);
         }
 
         return $manifest;
@@ -342,28 +336,6 @@ class PluginArchiveValidator
             } finally {
                 @unlink($tempFile);
             }
-        }
-    }
-
-    /**
-     * Compare the uploaded manifest against an existing plugin record.
-     */
-    private function assertCompatibleWithExisting(PluginManifestData $manifest, Plugin $existing): void
-    {
-        if ($manifest->alias !== $existing->alias) {
-            throw new PluginMarketException(sprintf(
-                '该插件包的别名 "%s" 与已注册插件 "%s" 不一致，不能作为其更新包。',
-                $manifest->alias,
-                $existing->alias,
-            ));
-        }
-
-        if (version_compare($manifest->version, $existing->version, '<=')) {
-            throw new PluginMarketException(sprintf(
-                '插件包版本 %s 不高于已安装版本 %s，无法更新。',
-                $manifest->version,
-                $existing->version,
-            ));
         }
     }
 

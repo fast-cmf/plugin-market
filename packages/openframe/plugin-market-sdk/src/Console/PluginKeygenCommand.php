@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Openframe\PluginMarketSdk\Console;
 
-use App\Services\Plugins\Signature\SigningKey;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Openframe\PluginMarketSdk\Signature\SigningKey;
 
 class PluginKeygenCommand extends Command
 {

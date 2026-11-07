@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Plugins\Signature;
+namespace Openframe\PluginMarketSdk\Signature;
 
 use Illuminate\Support\Facades\Cache;
 

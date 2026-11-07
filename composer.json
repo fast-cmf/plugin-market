@@ -8,6 +8,15 @@
         "framework"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/openframe/plugin-market-sdk",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "require": {
         "php": "^8.3",
         "inertiajs/inertia-laravel": "^3.0",
@@ -16,7 +25,8 @@
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14",
-        "nwidart/laravel-modules": "^13.3"
+        "nwidart/laravel-modules": "^13.3",
+        "openframe/plugin-market-sdk": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",

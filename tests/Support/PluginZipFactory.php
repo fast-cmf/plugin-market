@@ -2,10 +2,10 @@
 
 namespace Tests\Support;
 
-use App\Services\Plugins\Signature\PackageSigner;
-use App\Services\Plugins\Signature\SigningKey;
 use Illuminate\Http\Testing\File;
 use Illuminate\Support\Str;
+use Openframe\PluginMarketSdk\Signature\PackageSigner;
+use Openframe\PluginMarketSdk\Signature\SigningKey;
 use ZipArchive;
 
 class PluginZipFactory

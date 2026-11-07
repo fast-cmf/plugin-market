@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Openframe\PluginMarketSdk\Console;
 
-use App\Services\Plugins\PluginMarketException;
-use App\Services\Plugins\Signature\SignatureVerifier;
 use Illuminate\Console\Command;
+use Openframe\PluginMarketSdk\Signature\SignatureVerifier;
+use Openframe\PluginMarketSdk\Validation\PluginMarketException;
 use ZipArchive;
 
 class PluginVerifyCommand extends Command

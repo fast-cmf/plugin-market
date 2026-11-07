@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02486ded1ec1054c0e4f4e8003244bfa",
+    "content-hash": "4e52a06bb105d64d2d2b959a4f227415",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3114,6 +3114,55 @@
                 }
             ],
             "time": "2026-10-28T20:16:53+00:00"
+        },
+        {
+            "name": "openframe/plugin-market-sdk",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/openframe/plugin-market-sdk",
+                "reference": "37d514d6121c29462668738426d6b65451c75470"
+            },
+            "require": {
+                "ext-sodium": "*",
+                "ext-zip": "*",
+                "illuminate/cache": "^13.0",
+                "illuminate/console": "^13.0",
+                "illuminate/contracts": "^13.0",
+                "illuminate/filesystem": "^13.0",
+                "illuminate/process": "^13.0",
+                "illuminate/support": "^13.0",
+                "php": "^8.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Openframe\\PluginMarketSdk\\PluginMarketSdkServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Openframe\\PluginMarketSdk\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Ed25519 package signing, verification and revocation SDK for Laravel plugin markets.",
+            "keywords": [
+                "ed25519",
+                "laravel",
+                "market",
+                "plugin",
+                "signature",
+                "sodium"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -11792,7 +11841,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "openframe/plugin-market-sdk": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

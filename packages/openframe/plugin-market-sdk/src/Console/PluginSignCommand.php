@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Openframe\PluginMarketSdk\Console;
 
-use App\Services\Plugins\Signature\PackageSigner;
-use App\Services\Plugins\Signature\SigningKey;
 use Illuminate\Console\Command;
+use Openframe\PluginMarketSdk\Signature\PackageSigner;
+use Openframe\PluginMarketSdk\Signature\SigningKey;
 
 class PluginSignCommand extends Command
 {

@@ -4,6 +4,7 @@ namespace App\Services\Plugins;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Openframe\PluginMarketSdk\Validation\PluginMarketException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ZipArchive;

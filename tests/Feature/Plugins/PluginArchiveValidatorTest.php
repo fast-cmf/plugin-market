@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Plugin;
-use App\Services\Plugins\PluginArchiveValidator;
-use App\Services\Plugins\PluginMarketException;
+use Openframe\PluginMarketSdk\Validation\PluginArchiveValidator;
+use Openframe\PluginMarketSdk\Validation\PluginMarketException;
 use Tests\Support\PluginZipFactory;
 
 afterEach(function (): void {
@@ -107,40 +106,4 @@ test('合法 zip 通过校验并返回完整 manifest', function (): void {
     expect($manifest->providers)->toBe(['Modules\\Demo\\Providers\\DemoServiceProvider']);
     expect($manifest->menus)->toHaveCount(1);
     expect($manifest->menus[0]['route'])->toBe('dashboard');
-});
-
-test('与现有记录比较时拒绝别名不一致的更新包', function (): void {
-    PluginZipFactory::isolate();
-
-    $existing = Plugin::create([
-        'name' => 'Old',
-        'alias' => 'old',
-        'version' => '1.0.0',
-        'zip_path' => 'irrelevant',
-    ]);
-
-    $zipPath = PluginZipFactory::make('Demo');
-
-    $this->expectException(PluginMarketException::class);
-    $this->expectExceptionMessage('别名');
-
-    app(PluginArchiveValidator::class)->validate($zipPath, $existing);
-});
-
-test('与现有记录比较时拒绝不高于当前版本的更新包', function (): void {
-    PluginZipFactory::isolate();
-
-    $existing = Plugin::create([
-        'name' => 'Demo',
-        'alias' => 'demo',
-        'version' => '2.0.0',
-        'zip_path' => 'irrelevant',
-    ]);
-
-    $zipPath = PluginZipFactory::make('Demo', ['version' => '1.0.0']);
-
-    $this->expectException(PluginMarketException::class);
-    $this->expectExceptionMessage('无法更新');
-
-    app(PluginArchiveValidator::class)->validate($zipPath, $existing);
 });

@@ -2,11 +2,11 @@
 
 use App\Models\PluginLog;
 use App\Models\User;
-use App\Services\Plugins\PluginArchiveValidator;
-use App\Services\Plugins\PluginMarketException;
-use App\Services\Plugins\Signature\PackageSigner;
-use App\Services\Plugins\Signature\SigningKey;
 use Illuminate\Support\Facades\File;
+use Openframe\PluginMarketSdk\Signature\PackageSigner;
+use Openframe\PluginMarketSdk\Signature\SigningKey;
+use Openframe\PluginMarketSdk\Validation\PluginArchiveValidator;
+use Openframe\PluginMarketSdk\Validation\PluginMarketException;
 use Tests\Support\PluginZipFactory;
 use ZipArchive;
 

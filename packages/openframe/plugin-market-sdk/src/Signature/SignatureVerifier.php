@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Plugins\Signature;
+namespace Openframe\PluginMarketSdk\Signature;
 
-use App\Services\Plugins\PluginMarketException;
+use Openframe\PluginMarketSdk\Validation\PluginMarketException;
 use SodiumException;
 use ZipArchive;
 

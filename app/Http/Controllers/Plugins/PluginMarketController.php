@@ -7,12 +7,12 @@ use App\Http\Requests\Plugins\UploadPluginRequest;
 use App\Models\Plugin;
 use App\Models\PluginLog;
 use App\Services\Plugins\PluginInstaller;
-use App\Services\Plugins\PluginMarketException;
 use App\Services\Plugins\PluginMarketService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Openframe\PluginMarketSdk\Validation\PluginMarketException;
 
 class PluginMarketController extends Controller
 {

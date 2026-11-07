@@ -77,3 +77,35 @@ test('更新非法包时旧目录保持不变', function (): void {
 
     expect(PluginLog::query()->where('action', 'update')->where('status', 'failed')->exists())->toBeTrue();
 });
+
+test('拒绝别名不一致的更新包', function (): void {
+    PluginZipFactory::isolate();
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $plugin = uploadAndInstallPlugin($this, 'Demo', 'demo', '1.0.0');
+
+    $mismatched = PluginZipFactory::make('Demo', ['alias' => 'other', 'version' => '1.1.0']);
+    $this->post(route('plugins.update', $plugin), [
+        'plugin' => PluginZipFactory::uploaded($mismatched, 'other-1.1.0.zip'),
+    ]);
+
+    expect($plugin->refresh()->version)->toBe('1.0.0');
+    expect(PluginLog::query()->where('action', 'update')->where('status', 'failed')->where('message', 'like', '%别名%')->exists())->toBeTrue();
+});
+
+test('拒绝不高于当前版本的更新包', function (): void {
+    PluginZipFactory::isolate();
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $plugin = uploadAndInstallPlugin($this, 'Demo', 'demo', '1.0.0');
+
+    $older = PluginZipFactory::make('Demo', ['alias' => 'demo', 'version' => '1.0.0']);
+    $this->post(route('plugins.update', $plugin), [
+        'plugin' => PluginZipFactory::uploaded($older, 'demo-1.0.0.zip'),
+    ]);
+
+    expect($plugin->refresh()->version)->toBe('1.0.0');
+    expect(PluginLog::query()->where('action', 'update')->where('status', 'failed')->where('message', 'like', '%无法更新%')->exists())->toBeTrue();
+});

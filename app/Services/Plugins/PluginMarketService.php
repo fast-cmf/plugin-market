@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Openframe\PluginMarketSdk\Validation\PluginArchiveValidator;
+use Openframe\PluginMarketSdk\Validation\PluginManifestData;
+use Openframe\PluginMarketSdk\Validation\PluginMarketException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Throwable;
 
@@ -173,7 +176,8 @@ class PluginMarketService
         $file->move(dirname($zipPath), basename($zipPath));
 
         try {
-            $manifest = $this->validator->validate($zipPath, $plugin);
+            $manifest = $this->validator->validate($zipPath);
+            $this->assertUpdatable($manifest, $plugin);
         } catch (PluginMarketException $exception) {
             @unlink($zipPath);
 
@@ -319,6 +323,29 @@ class PluginMarketService
         $this->flushRouteCache();
 
         $this->logger->log($user, $plugin, 'disable', 'success', sprintf('插件 %s 已禁用。', $plugin->name));
+    }
+
+    /**
+     * Ensure the uploaded package can replace the installed plugin:
+     * the alias must match and the version must strictly increase.
+     */
+    private function assertUpdatable(PluginManifestData $manifest, Plugin $existing): void
+    {
+        if ($manifest->alias !== $existing->alias) {
+            throw new PluginMarketException(sprintf(
+                '该插件包的别名 "%s" 与已注册插件 "%s" 不一致，不能作为其更新包。',
+                $manifest->alias,
+                $existing->alias,
+            ));
+        }
+
+        if (version_compare($manifest->version, $existing->version, '<=')) {
+            throw new PluginMarketException(sprintf(
+                '插件包版本 %s 不高于已安装版本 %s，无法更新。',
+                $manifest->version,
+                $existing->version,
+            ));
+        }
     }
 
     /**
