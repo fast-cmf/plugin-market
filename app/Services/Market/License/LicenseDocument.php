@@ -31,12 +31,14 @@ final class LicenseDocument
     public static function verify(array $document, string $platformPublicKeyBase64): self
     {
         foreach (['lic', 'product', 'expires_at', 'grace_days', 'features', 'sig'] as $field) {
-            if (! isset($document[$field]) || $document[$field] === '' || $document[$field] === []) {
+            if (! array_key_exists($field, $document)) {
                 throw new LicenseException(sprintf('License 凭证缺少必填字段 "%s"。', $field));
             }
         }
 
-        if (! is_string($document['lic']) || ! is_string($document['product']) || ! is_string($document['sig'])) {
+        if (! is_string($document['lic']) || $document['lic'] === ''
+            || ! is_string($document['product']) || $document['product'] === ''
+            || ! is_string($document['sig']) || $document['sig'] === '') {
             throw new LicenseException('License 凭证字段类型不合法。');
         }
 

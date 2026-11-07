@@ -94,6 +94,16 @@ test('合法凭证离线验签通过且字段读取正确', function (): void {
     expect($document->graceDays())->toBe(14);
 });
 
+test('features 为空数组的凭证合法（无附加功能授权）', function (): void {
+    $document = LicenseDocument::verify(
+        issueLicenseDocument($this->platform, ['features' => []]),
+        $this->platform->exportPublicKey(),
+    );
+
+    expect($document->features())->toBe([]);
+    expect($document->hasFeature('anything'))->toBeFalse();
+});
+
 test('凭证任一字段被篡改即验签失败', function (): void {
     $document = issueLicenseDocument($this->platform);
     $document['features'][] = 'pirated';
