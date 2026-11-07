@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Services\Market\License\Http\MarketClient;
+use App\Services\Market\License\LicenseManager;
+use App\Services\Market\License\LicenseStore;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +24,14 @@ class AppServiceProvider extends ServiceProvider
         if (! extension_loaded('sodium')) {
             throw new RuntimeException('插件市场签名体系依赖 PHP sodium 扩展（libsodium），请在 php.ini 中启用 ext-sodium。');
         }
+
+        $this->app->singleton(LicenseManager::class, function ($app): LicenseManager {
+            return new LicenseManager(
+                $app->make(LicenseStore::class),
+                $app->make(MarketClient::class),
+                (string) config('plugin-market.license.platform_public_key'),
+            );
+        });
     }
 
     /**

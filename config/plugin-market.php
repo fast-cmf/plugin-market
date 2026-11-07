@@ -65,4 +65,29 @@ return [
         'revocations_path' => storage_path('app/plugin-revocations.json'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | License verification (design §4)
+    |--------------------------------------------------------------------------
+    |
+    | Client-side license SDK talking to the market platform. The platform
+    | public key must be the base64 Ed25519 public key of the marketplace
+    | issuer; documents are verified offline against it.
+    |
+    */
+
+    'license' => [
+        // Market platform API root (no trailing slash).
+        'base_url' => env('MARKET_BASE_URL', 'http://127.0.0.1:8000/api'),
+
+        // base64 encoded platform Ed25519 public key for license documents.
+        'platform_public_key' => env('MARKET_PLATFORM_PUBLIC_KEY', ''),
+
+        // Fallback grace period (days) when a document carries none.
+        'grace_days' => (int) env('MARKET_GRACE_DAYS', 14),
+
+        // Encrypted-at-rest license archive.
+        'store_path' => storage_path('app/market/license.json'),
+    ],
+
 ];
