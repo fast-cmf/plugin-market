@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureApplicationIsInstalled;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Composer\Autoload\ClassLoader;
@@ -26,6 +27,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
+
+        $middleware->web(prepend: [
+            EnsureApplicationIsInstalled::class,
+        ]);
 
         $middleware->web(append: [
             HandleAppearance::class,

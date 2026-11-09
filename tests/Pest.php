@@ -20,6 +20,17 @@ pest()->extend(TestCase::class)
 
 /*
 |--------------------------------------------------------------------------
+| Installer guard
+|--------------------------------------------------------------------------
+|
+| Tests assume a fully installed application: tests/TestCase.php marks the
+| app as installed in setUp(). Installer tests override installer.lock_path
+| in their own beforeEach to exercise the uninstalled wizard state.
+|
+*/
+
+/*
+|--------------------------------------------------------------------------
 | Expectations
 |--------------------------------------------------------------------------
 |

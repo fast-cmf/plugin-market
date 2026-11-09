@@ -23,3 +23,4 @@ Route::middleware(['auth', 'verified', 'can:manage-plugins'])
     });
 
 require __DIR__.'/settings.php';
+require __DIR__.'/install.php';
