@@ -24,6 +24,13 @@ php artisan plugin:verify storage/app/plugins/samples/announcement-1.0.0.zip
 
 # 已有 zip 也可以单独签名
 php artisan plugin:sign path/to/package.zip --key=storage/app/plugin-keys/my-dev-key.sk
+
+# 4. 提交到市场平台进入审核
+#    前置：.env 中配置 MARKET_DEVELOPER_TOKEN（平台开发者账号的 Sanctum token）
+php artisan market:submit storage/app/plugins/samples/announcement-1.0.0.zip \
+    --key=storage/app/plugin-keys/my-dev-key.sk \
+    --changelog="首个版本"
+#    成功输出 plugin_id / version / status / sha256；422 表示包被验签拒绝
 ```
 
 公钥与 key_id 需在市场注册绑定；私钥泄露时通过吊销列表使 key_id 失效。

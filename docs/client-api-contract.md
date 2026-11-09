@@ -53,6 +53,27 @@ GET /api/security/revocations
 
 客户端三重校验顺序与错误码见 [签名分发](signing-workflow.md)。
 
+## 命令行工作流（闭环）
+
+开发者在客户端框架侧提交、平台运营在平台侧审核，均可用 CLI 完成：
+
+```bash
+# ── 客户端框架（开发者） ──────────────────────────────
+# .env：MARKET_BASE_URL、MARKET_DEVELOPER_TOKEN（Sanctum 开发者 token）
+php artisan market:submit path/to/package.zip --key=storage/app/plugin-keys/my-dev-key.sk --changelog="首个版本"
+#   → 201 返回 plugin_id / version / status / sha256；422 = 验签拒绝
+
+# ── 市场平台（运营） ─────────────────────────────────
+php artisan market:review                       # 列出待审核版本（--status= 过滤，all 不过滤）
+php artisan market:approve {version_id} --reviewer=ops@market.local
+php artisan market:reject  {version_id} --comment="驳回意见" --reviewer=ops@market.local
+php artisan market:publish {version_id} --reviewer=ops@market.local   # 须已 approved
+php artisan market:mark-paid {order_no} --reviewer=admin@market.local # admin 角色，签发 License
+```
+
+审核/购买操作要求平台账号具备相应角色（reviewer/admin，`--reviewer` 传入邮箱），
+与 HTTP 端点的 Gate 校验一致；平台侧命令直接调用 Service 层，不经 HTTP。
+
 ## 演进约定
 
 - 新增字段必须向后兼容（客户端忽略未知字段）

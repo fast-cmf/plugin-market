@@ -67,6 +67,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Developer submission (CLI)
+    |--------------------------------------------------------------------------
+    |
+    | Credentials used by `market:submit` to push a signed package to the
+    | market platform's review queue. The API root is shared with the
+    | license client (plugin-market.license.base_url).
+    |
+    */
+
+    'developer' => [
+        'token' => env('MARKET_DEVELOPER_TOKEN', ''),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | License verification (design §4)
     |--------------------------------------------------------------------------
     |
